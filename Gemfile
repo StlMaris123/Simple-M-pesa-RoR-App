@@ -29,7 +29,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # Authentication
 gem 'devise'
-
+gem 'phonelib'
 # SMS
 gem 'twilio-ruby'
 

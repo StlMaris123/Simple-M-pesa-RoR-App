@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateScheduledMessages < ActiveRecord::Migration[6.0]
   def change
     create_table :scheduled_messages do |t|
