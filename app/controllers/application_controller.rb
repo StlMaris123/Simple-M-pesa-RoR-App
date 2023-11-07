@@ -1,11 +1,32 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  include TokenAuthenticable
 
-  protected
+  def render_unprocessable_entity(model)
+    render_error(:unprocessable_entity, model)
+  end
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name phone])
+  def bad_params(error)
+    render status: :bad_request,
+           json: {
+             error: {
+               status: 400,
+               name: 'Invalid Params',
+               message: error
+             }
+           }
+  end
+
+  def respond_with_not_found
+    resource = controller_name.classify.constantize.new(id: params[:id])
+    resource.errors.add(:id, 'resource not found')
+    render_error(:not_found, resource)
+  end
+
+  def render_error(status, resource = nil)
+    render status: status,
+           json: resource,
+           serializer: ActiveModel::Serializer::ErrorSerializer
   end
 end
