@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateScheduledMessages < ActiveRecord::Migration[6.0]
+class CreateMessages < ActiveRecord::Migration[6.0]
   def change
     create_table :scheduled_messages do |t|
       t.text :message
@@ -8,6 +8,7 @@ class CreateScheduledMessages < ActiveRecord::Migration[6.0]
       t.string :status
       t.datetime :scheduled_at
       t.jsonb :metadata, default: {}
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

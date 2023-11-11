@@ -33,7 +33,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       # t.datetime :locked_at
 
       t.string :phone
-      t.string :name
+      t.string :first_name, index: true
+      t.string :last_name, index: true
+      # t.virtual :fullname, as: "CONCAT(first_name, ' ', last_name)", type: :string, stored: true
 
       t.timestamps null: false
     end
