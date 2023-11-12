@@ -11,7 +11,8 @@
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  phone                  :string
-#  name                   :string
+#  first_name             :string
+#  last_name              :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -23,11 +24,20 @@ class User < ApplicationRecord
 
   # validations
   validates :phone, phone: true
-  validates :phone, presence: true#, uniqueness: true
+  validates :phone, presence: true, uniqueness: true
+
+  # callbacks
+  after_create :create_associated_account
 
   # Associations
   has_one :account
   has_many :account_transactions, through: :account
   has_many :sent_transactions, foreign_key: :sender_id, class_name: 'AccountTransaction'
   has_many :received_transactions, foreign_key: :recepient_id, class_name: 'AccountTransaction'
+
+  private
+
+  def create_associated_account
+    create_account unless account
+  end
 end

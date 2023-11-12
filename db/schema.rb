@@ -19,9 +19,11 @@ ActiveRecord::Schema[7.1].define(version: 20_231_109_214_916) do
     t.string 'reference_number'
     t.string 'transaction_status'
     t.string 'transaction_type'
-    t.bigint 'account_id', null: false
-    t.bigint 'sender_id', null: false
-    t.bigint 'recepient_id', null: false
+    t.string 'checkout_request_id'
+    t.string 'merchant_request_id'
+    t.bigint 'account_id'
+    t.bigint 'sender_id'
+    t.bigint 'recepient_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['account_id'], name: 'index_account_transactions_on_account_id'
@@ -30,7 +32,7 @@ ActiveRecord::Schema[7.1].define(version: 20_231_109_214_916) do
   end
 
   create_table 'accounts', force: :cascade do |t|
-    t.decimal 'balance'
+    t.decimal 'balance', default: '0.0'
     t.bigint 'user_id', null: false
     t.string 'account_number'
     t.string 'account_status'

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: users
@@ -16,7 +14,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-require 'rails_helper'
-
-RSpec.describe User, type: :model do
+class UserSerializer < ActiveModel::Serializer
+  attributes :id, :first_name, :last_name, :email,
+             :phone, :created_at, :updated_at
 end

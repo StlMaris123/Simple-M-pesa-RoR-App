@@ -5,9 +5,11 @@ class CreateAccountTransactions < ActiveRecord::Migration[7.1]
       t.string :reference_number
       t.string :transaction_status
       t.string :transaction_type
-      t.references :account, null: false, foreign_key: true
-      t.references :sender, null: false, foreign_key: { to_table: :users }
-      t.references :recepient, null: false, foreign_key: { to_table: :users }
+      t.string :checkout_request_id
+      t.string :merchant_request_id
+      t.references :account, foreign_key: true
+      t.references :sender, foreign_key: { to_table: :users }
+      t.references :recepient, foreign_key: { to_table: :users }
 
       t.timestamps
     end
