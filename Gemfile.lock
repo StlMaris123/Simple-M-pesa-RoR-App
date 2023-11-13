@@ -79,6 +79,11 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    addressable (2.8.5)
+      public_suffix (>= 2.0.2, < 6.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     base64 (0.1.1)
     bcrypt (3.1.19)
     bigdecimal (3.1.4)
@@ -106,6 +111,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
     drb (2.1.1)
       ruby2_keywords
     erubi (1.12.0)
@@ -124,6 +131,9 @@ GEM
     ffi (1.16.3)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    http-accept (1.7.0)
+    http-cookie (1.0.5)
+      domain_name (~> 0.5)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -132,6 +142,14 @@ GEM
       reline (>= 0.3.8)
     jsonapi-renderer (0.2.2)
     jwt (2.7.1)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    letter_opener_web (1.4.1)
+      actionmailer (>= 3.2)
+      letter_opener (~> 1.0)
+      railties (>= 3.2)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -144,6 +162,9 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
+    mime-types (3.5.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2023.1003)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
     minitest (5.20.0)
@@ -158,6 +179,7 @@ GEM
       timeout
     net-smtp (0.4.0)
       net-protocol
+    netrc (0.11.0)
     nio4r (2.5.9)
     nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
@@ -167,10 +189,13 @@ GEM
     phonelib (0.8.5)
     psych (5.1.1.1)
       stringio
+    public_suffix (5.0.3)
     puma (6.4.0)
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (3.0.8)
+    rack-cors (2.0.1)
+      rack (>= 2.0.0)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -221,6 +246,12 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    rexml (3.2.6)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.3)
@@ -239,6 +270,11 @@ GEM
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
     ruby2_keywords (0.0.5)
+    rubyzip (2.3.2)
+    selenium-webdriver (4.10.0)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 3.0)
+      websocket (~> 1.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.2.0)
@@ -265,9 +301,17 @@ GEM
       nokogiri (>= 1.6, < 2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
     warden (1.2.9)
       rack (>= 2.0.9)
+    webdrivers (5.3.1)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (~> 4.0, < 4.11)
     webrick (1.8.1)
+    websocket (1.2.10)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -277,7 +321,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers
+  active_model_serializers (~> 0.10.0)
+  annotate
   bootsnap (>= 1.4.2)
   byebug
   database_cleaner
@@ -285,12 +330,16 @@ DEPENDENCIES
   factory_bot_rails
   faker
   jwt
+  letter_opener
+  letter_opener_web (~> 1.2)
   listen (~> 3.2)
   pg
   phonelib
   puma
+  rack-cors
   rails (~> 7.1.1)
   redis
+  rest-client
   rspec-rails
   shoulda-matchers
   sidekiq
@@ -299,6 +348,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   twilio-ruby
   tzinfo-data
+  webdrivers
 
 BUNDLED WITH
    2.1.4

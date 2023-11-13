@@ -3,7 +3,7 @@
 # Table name: accounts
 #
 #  id             :bigint           not null, primary key
-#  balance        :decimal(, )
+#  balance        :decimal(, )      default(0.0)
 #  user_id        :bigint           not null
 #  account_number :string
 #  account_status :string

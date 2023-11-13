@@ -35,6 +35,10 @@ class User < ApplicationRecord
   has_many :sent_transactions, foreign_key: :sender_id, class_name: 'AccountTransaction'
   has_many :received_transactions, foreign_key: :recepient_id, class_name: 'AccountTransaction'
 
+  def transactions_for_date_range(start_date, end_date)
+    account_transactions.where('account_transactions.created_at BETWEEN ? AND ?', start_date, end_date).all
+  end
+
   private
 
   def create_associated_account
