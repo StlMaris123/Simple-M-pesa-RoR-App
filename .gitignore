@@ -27,3 +27,9 @@
 /config/master.key
 
 /config/credentials/development.key
+
+
+/config/credentials.yml.enc
+/config/credentials/development.yml.enc
+
+coverage/
