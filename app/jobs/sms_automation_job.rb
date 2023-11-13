@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class SmsAutomationJob < ApplicationJob
-  def perform(message, recipient)
+  def perform(recipient:, sender:, amount:)
     Sms::TwilioClient.new(
-      scheduled_message: message, recipient: recipient
+      recipient: recipient, sender: sender, amount: amount
     ).send_sms
   end
 end

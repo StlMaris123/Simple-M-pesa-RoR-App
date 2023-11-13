@@ -36,7 +36,7 @@ class User < ApplicationRecord
   has_many :received_transactions, foreign_key: :recepient_id, class_name: 'AccountTransaction'
 
   def transactions_for_date_range(start_date, end_date)
-    account_transactions.where('account_transactions.created_at BETWEEN ? AND ?', start_date, end_date).all
+    account_transactions.where(start_date...end_date)
   end
 
   private

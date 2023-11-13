@@ -2,18 +2,17 @@
 
 module Sms
   class TwilioClient
-    attr_reader :recipient, :scheduled_message
+    attr_reader :recipient, :sender, :amount
 
-    def initialize(scheduled_message:, recipient:)
+    def initialize(recipient:, sender:, amount:)
       @recipient = recipient
-      @scheduled_message = scheduled_message
+      @sender = sender
+      @amount = amount
     end
 
     def send_sms
-      return deliver_sms_now! unless deliver_now?
-
-      SmsAutomationJob.set(wait_until: scheduled_message.scheduled_at)
-                      .perform_later(scheduled_message, recipient)
+      create_message
+      sms_call
     end
 
     private
@@ -29,18 +28,17 @@ module Sms
       Rails.application.credentials.twilio.phone_number
     end
 
-    def deliver_sms_now!
+    def sms_call
       client.api.account.messages.create(
         to: recipient.phone,
         from: phone_number,
-        body: scheduled_message.message
+        body: @message.message
       )
     end
 
-    def deliver_now?
-      return false unless scheduled_message.scheduled_at.present?
-
-      scheduled_message.scheduled_at.present? && DateTime.parse(scheduled_message.scheduled_at.to_s) > Time.current
+    def create_message
+      message = "Congragulations!! You have recieved #{amount} from #{sender.first_name}"
+      @message = Message.create(channel: 'sms', message: message)
     end
   end
 end

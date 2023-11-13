@@ -16,28 +16,32 @@
 #  updated_at          :datetime         not null
 #
 class AccountTransaction < ApplicationRecord
-  after_create :send_sms_if_credit, :send_email_if_credit
+  enum transaction_status: {
+    pending:   'pending',
+    completed: 'completed',
+    failed:    'failed'
+  }
+
+  enum transaction_type: {
+    credit: 'credit',
+    debit:  'debit'
+  }
+
+  after_create_commit :notify_user, if: :credit?
 
   belongs_to :account, optional: true
   belongs_to :sender, optional: true, class_name: 'User', foreign_key: 'sender_id'
   belongs_to :recipient, optional: true, class_name: 'User', foreign_key: 'recepient_id'
 
+  attribute :transaction_status, :string, default: 'pending'
+  delegate :balance, to: :account, prefix: true, allow_nil: true
+
+  scope :for_date_range, ->(start_date, end_date) { where(created_at: start_date..end_date) }
+
   private
 
-  def send_sms_if_credit
-    if credit_transaction?
-      SmsAutomationJob.perform_later(recipient: recipient, sender: sender, amount: amount)
-      AccountNotificationJob.perform_later(recipient: recipient, amount: amount)
-    end
-  end
-
-  def send_email_if_credit
-    if credit_transaction?
-      AccountNotificationJob.perform_later(recipient: recipient, amount: amount)
-    end
-  end
-
-  def credit_transaction?
-    transaction_type == 'credit'
+  def notify_user
+    SmsAutomationJob.perform_later(recipient: recipient, sender: sender, amount: amount)
+    AccountNotificationJob.perform_later(recipient: recipient, amount: amount)
   end
 end
