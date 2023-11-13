@@ -10,7 +10,13 @@ module Api
         render json: @user, status: :ok
       end
 
-      def index; end
+      def index
+        page_number = params.fetch(:page, 1)
+        per_page = params.fetch(:per_page, 10)
+
+        @users = User.paginate(page: page_number, per_page: per_page)
+        render json: @users, status: :ok
+      end
 
       def create
         @user = User.new(user_params)
