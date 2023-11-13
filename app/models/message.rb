@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
-# Table name: scheduled_messages
+# Table name: messages
 #
 #  id           :bigint           not null, primary key
 #  message      :text
