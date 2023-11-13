@@ -24,6 +24,7 @@ class AccountTransaction < ApplicationRecord
 
   enum transaction_type: {
     credit: 'credit',
+    c2b: 'c2b',
     debit:  'debit'
   }
 
